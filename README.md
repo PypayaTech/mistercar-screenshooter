@@ -5,7 +5,7 @@
 ## 🛠️ Installation
 
 ```bash
-pip install mistercar_screenshooter
+pip install mistercar-screenshooter
 ```
 
 ## 📚 Usage
