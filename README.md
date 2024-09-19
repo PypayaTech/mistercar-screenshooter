@@ -31,7 +31,7 @@ cv2.imwrite("region.png", cv2.cvtColor(region, cv2.COLOR_RGB2BGR))
 # 3. Capture a specific window (Windows only)
 try:
     window = sc.capture_window("*Untitled - Notepad")
-    cv2.imwrite("window.png", cv2.cvtColor(window, cv2.COLOR_RGB2BGR))
+    cv2.imwrite("window.png", window)
 except NotImplementedError:
     print("Window capture is not supported on this platform.")
 
