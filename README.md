@@ -1,4 +1,4 @@
-# 📸 **MisterCar ScreenShooter** 💥
+# 📸 **mistercar-screenshooter** 💥
 
 🚀 A versatile, high-performance Python package for cross-platform screen capturing and recording. It offers functionality for full screen, region, window, and monitor capture, as well as video recording capabilities. 🎞️
 
