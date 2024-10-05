@@ -25,7 +25,7 @@ def main():
         try:
             print("Capturing specific window (Windows only)...")
             window = sc.capture_window("*Untitled - Notepad")
-            cv2.imwrite("window.png", window)
+            cv2.imwrite("window.png", cv2.cvtColor(window, cv2.COLOR_RGB2BGR))
         except Exception as e:
             print(f"Failed to capture window: {str(e)}")
     else:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mistercar-screenshooter"
-version = "1.0.2"
+version = "1.0.3"
 description = "A versatile, high-performance Python package for cross-platform screen capturing and recording"
 authors = ["PypayaTech"]
 license = "MIT"

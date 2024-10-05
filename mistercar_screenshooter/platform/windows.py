@@ -63,7 +63,7 @@ class WindowsCapture(BasePlatformCapture):
             mfcDC.DeleteDC()
             win32gui.ReleaseDC(hwnd, hwndDC)
 
-            return img[:, :, :3]  # Remove alpha channel
+            return img[:, :, [2, 1, 0]]  # Remove alpha channel and change BGR to RGB
 
         except WindowNotFoundError:
             raise
