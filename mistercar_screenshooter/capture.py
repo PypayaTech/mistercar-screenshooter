@@ -12,18 +12,56 @@ class ScreenCapture:
     Main class for screen capture functionality across all platforms.
     """
 
-    def __init__(self):
-        """Initialize the ScreenCapture object with the appropriate platform-specific implementation."""
+    def __init__(self, **kwargs):
+        """
+        Initialize screen capture with platform-specific configuration.
+
+        All keyword arguments are passed to the underlying capture library:
+        - Windows: Arguments passed to bettercam.create()
+        - Linux/macOS: Arguments passed to mss()
+
+        The platform implementations will silently ignore any parameters
+        they don't recognize, allowing for cross-platform configuration.
+
+        Common Windows (BetterCam) parameters:
+        - nvidia_gpu (bool): Use NVIDIA GPU acceleration (default: False)
+        - device_idx (int): Device index for capture (default: 0)
+        - output_idx (int): Output index for multi-monitor (default: None)
+        - output_color (str): Color format "RGB", "BGR", "BGRA" (default: "RGB")
+        - max_buffer_len (int): Buffer length for frames (default: 64)
+
+        Common Linux/macOS (MSS) parameters:
+        - compression (int): PNG compression level
+        - display (str): X11 display (Linux only)
+
+        Examples:
+            # Basic usage
+            sc = ScreenCapture()
+
+            # Windows-specific: disable GPU acceleration
+            sc = ScreenCapture(nvidia_gpu=False)
+
+            # Linux-specific: set compression
+            sc = ScreenCapture(compression=6)
+
+            # Cross-platform: each platform uses what it understands
+            sc = ScreenCapture(nvidia_gpu=False, compression=6, output_color='BGR')
+
+        For advanced platform-specific control, use platform classes directly:
+            from mistercar_screenshooter.platform.windows import WindowsCapture
+            wc = WindowsCapture(device_idx=1, max_buffer_len=128)
+        """
         system = platform.system().lower()
+
         if system == "windows":
             from mistercar_screenshooter.platform.windows import WindowsCapture
-            self._impl = WindowsCapture()
+            self._impl = WindowsCapture(**kwargs)
         elif system == "linux":
             from mistercar_screenshooter.platform.linux import LinuxCapture
-            self._impl = LinuxCapture()
+            self._impl = LinuxCapture(**kwargs)
         elif system == "darwin":
             from mistercar_screenshooter.platform.macos import MacOSCapture
-            self._impl = MacOSCapture()
+            self._impl = MacOSCapture(**kwargs)
         else:
             raise UnsupportedPlatformError(f"Unsupported platform: {system}")
 
@@ -81,7 +119,8 @@ class ScreenCapture:
         """
         return self._impl.capture_monitor(monitor_id)
 
-    def create_recorder(self, capture_type: str, target: Any = None, target_fps: int = 60) -> FrameBuffer or BetterCamRecorder:
+    def create_recorder(self, capture_type: str, target: Any = None,
+                        target_fps: int = 60) -> FrameBuffer or BetterCamRecorder:
         """
         Create a recorder object for background recording.
 
